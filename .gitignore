@@ -9,6 +9,5 @@ pom.xml.asc
 /.nrepl-port
 .hgignore
 .hg/
-/cljfmt
 .idea
 *.iml
