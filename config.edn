@@ -1,0 +1,11 @@
+{:file-pattern #"[^\.#]*\.clj[s|c]?$"
+ :indents      {require                    [[:block 0]]
+                ns                         [[:block 0]]
+                #"^(?!:require|:import).*" [[:inner 0]]
+                defnk                      [[:inner 0]]
+                fnk                        [[:inner 0]]
+                cond->                     ^:replace [[:block 0]]
+                cond->>                    ^:replace [[:block 0]]
+                doto                       ^:replace [[:block 0]]
+                fact                       [[:inner 0]]
+                facts                      [[:inner 0]]}}
