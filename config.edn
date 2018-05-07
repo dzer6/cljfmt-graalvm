@@ -1,6 +1,6 @@
 {:file-pattern #"[^\.#]*\.clj[s|c]?$"
  :indents      {require                    [[:block 0]]
-                ns                         [[:block 0]]
+                ns                         [[:inner 0]]
                 #"^(?!:require|:import).*" [[:inner 0]]
                 defnk                      [[:inner 0]]
                 fnk                        [[:inner 0]]

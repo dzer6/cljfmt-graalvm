@@ -44,12 +44,16 @@
       (grep (file-pattern opts) f)
       [f])))
 
+(defn reformat [opts file]
+  (let [original (slurp file)
+        revised (fmt/reformat-string original opts)]
+    (when (not= original revised)
+      (spit file revised))))
+
 (defn process [opts files]
-  (doseq [f files]
-    (let [original (slurp f)
-          revised (fmt/reformat-string original opts)]
-      (when (not= original revised)
-        (spit f revised)))))
+  (->> files
+       (map (partial reformat opts))
+       (doall)))
 
 (defn -main [& args]
   (let [{:keys [options summary]} (cli/parse-opts args cli-config)
