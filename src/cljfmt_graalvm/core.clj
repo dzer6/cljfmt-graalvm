@@ -4,15 +4,12 @@
             [clojure.tools.cli :as cli])
   (:gen-class))
 
+;;;
+
 (defn exists [path]
   (-> path
       (io/as-file)
       (.exists)))
-
-(defn is-directory [path]
-  (-> path
-      (io/as-file)
-      (.isDirectory)))
 
 (defn is-file [path]
   (-> path
@@ -22,12 +19,13 @@
 (def cli-config
   [["-p" "--path PATH" "Path to folder with clojure project source code"
     :default "."
-    :validate [exists "Sources path does not exist"
-               is-directory "Sources path should refer to directory"]]
+    :validate [exists "Sources path does not exist"]]
    ["-c" "--config CONFIG" "Path to config file"
     :validate [exists "Config path does not exist"
                is-file "Config path should refer to file"]]
    ["-h" "--help"]])
+
+;;;
 
 (defn grep [re dir]
   (filter
@@ -47,13 +45,15 @@
 (defn reformat [opts file]
   (let [original (slurp file)
         revised (fmt/reformat-string original opts)]
-    (when (not= original revised)
+    (when (not= (hash original) (hash revised))
       (spit file revised))))
 
 (defn process [opts files]
   (->> files
        (map (partial reformat opts))
        (doall)))
+
+;;;
 
 (defn -main [& args]
   (let [{:keys [options summary]} (cli/parse-opts args cli-config)
